@@ -27,5 +27,6 @@ mlruns
 # Specific for project
 data/
 nbs/wip*.ipynb
+nbs/logs/
 repos/
 saved/
