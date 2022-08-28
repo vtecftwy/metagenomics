@@ -1,9 +1,9 @@
-import keras
-from keras import models
-from keras.models import Model
-from keras.models import load_model
-from keras import backend as K
-from keras.callbacks import EarlyStopping, TensorBoard
+import tensorflow.keras
+from tensorflow.keras import models
+from tensorflow.keras.models import Model
+from tensorflow.keras.models import load_model
+from tensorflow.keras import backend as K
+from tensorflow.keras.callbacks import EarlyStopping, TensorBoard
 import random
 import collections
 from sklearn.metrics import cohen_kappa_score

@@ -1,4 +1,4 @@
-import keras
+import tensorflow.keras
 import numpy as np
 
 #dictionary for one-hot encoding
@@ -6,12 +6,12 @@ d_nucl={"A":0,"C":1,"G":2,"T":3,"N":4}
 
 #get different learning weights for different classes
 def get_learning_weights(filepath):
-	f=open(filepath,"r").readlines()
-	d_weights={}
-	for i in f:
-        	i=i.strip().split("\t")
-        	d_weights[float(i[0])]=float(i[1])
-	return d_weights
+    f=open(filepath,"r").readlines()
+    d_weights={}
+    for i in f:
+        i = i.strip().split("\t")
+        d_weights[float(i[0])]=float(i[1])
+    return d_weights
 
 #set default params for generating batches of 50-mer
 def get_params_50mer():

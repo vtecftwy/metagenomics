@@ -1,6 +1,6 @@
-import keras
-from keras import models
-from keras.models import load_model
+import tensorflow.keras
+from tensorflow.keras import models
+from tensorflow.keras.models import load_model
 import random
 from preprocessing import get_kmer_from_realdata,DataGenerator_from_realdata
 from voting import get_final_result

@@ -1,5 +1,5 @@
-import keras
-from keras.models import load_model
+import tensorflow.keras
+from tensorflow.keras.models import load_model
 import numpy as np
 from preprocessing import get_kmer_from_50mer,get_params_50mer,DataGenerator_from_50mer_testing
 from generate_report import save_report

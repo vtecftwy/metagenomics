@@ -1,10 +1,10 @@
-import keras
-from keras.models import Sequential
-from keras.layers import Convolution1D, Dense, Flatten, Dropout, Activation, BatchNormalization, Input
-from keras import models
-from keras.models import Model
-from keras.layers.pooling import MaxPooling1D
-from keras.callbacks import EarlyStopping, TensorBoard, ModelCheckpoint
+import tensorflow.keras
+from tensorflow.keras.models import Sequential
+from tensorflow.keras.layers import Convolution1D, Dense, Flatten, Dropout, Activation, BatchNormalization, Input
+from tensorflow.keras import models
+from tensorflow.keras.models import Model
+from tensorflow.keras.layers.pooling import MaxPooling1D
+from tensorflow.keras.callbacks import EarlyStopping, TensorBoard, ModelCheckpoint
 import numpy as np
 import random
 from preprocessing import get_kmer_from_50mer,get_params_50mer,get_learning_weights,DataGenerator_from_50mer
