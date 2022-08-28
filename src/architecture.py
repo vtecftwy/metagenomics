@@ -1,15 +1,12 @@
 import tensorflow.keras
-from tensorflow.keras.models import Sequential
 from tensorflow.keras.layers import Convolution1D, Dense, Flatten, Dropout, Activation, BatchNormalization, Input
-from tensorflow.keras import models
-from tensorflow.keras.models import Model
-from tensorflow.keras.layers.pooling import MaxPooling1D
-from tensorflow.keras.models import load_model
+from tensorflow.keras.layers import MaxPooling1D, Concatenate
+from tensorflow.keras.models import Sequential, Model, load_model
 import numpy as np
 import random
 
 def build_model():
-	print("begin to train")
+	print("Creating Model")
 	#build cnn model
 	input_seq=Input(shape=(50,5))
 	layer1=Convolution1D(512, 5, padding="same",activation="relu",kernel_initializer="he_uniform")(input_seq)
@@ -27,7 +24,7 @@ def build_model():
 	layer13=BatchNormalization(momentum=0.6)(layer12)
 	layer14=Dropout(0.2)(layer13)
 	output1=Dense(187, activation='softmax',kernel_initializer="he_uniform",name="output1")(layer14)
-	output_con=keras.layers.concatenate([layer14,output1],axis=1)
+	output_con=Concatenate()([layer14,output1])
 	layer15=Dense(1024, kernel_initializer="he_uniform")(output_con)
 	layer16=BatchNormalization(momentum=0.6)(layer15)
 	output2=Dense(10, activation='softmax',kernel_initializer="he_uniform",name="output2")(layer16)

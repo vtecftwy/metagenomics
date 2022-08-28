@@ -1,5 +1,6 @@
-import tensorflow.keras
 import numpy as np
+
+from tensorflow.keras.utils import Sequence, to_categorical
 
 #dictionary for one-hot encoding
 d_nucl={"A":0,"C":1,"G":2,"T":3,"N":4}
@@ -100,7 +101,7 @@ def get_kmer_from_santi(filepath):
 	return f_matrix,f_index
 
 #data generator for generating batches of data from 50-mers
-class DataGenerator_from_50mer(keras.utils.Sequence):
+class DataGenerator_from_50mer(Sequence):
 	def __init__(self, f_matrix, f_labels, f_pos, batch_size=1024,n_classes=187, shuffle=True):
 		self.batch_size = batch_size
 		self.labels = f_labels
@@ -133,14 +134,14 @@ class DataGenerator_from_50mer(keras.utils.Sequence):
 		y_pos=[]
 		y_label=[self.labels[i] for i in index]
 		y_label=np.array(y_label)
-		y_label=keras.utils.to_categorical(y_label, num_classes=self.n_classes)
+		y_label=to_categorical(y_label, num_classes=self.n_classes)
 		y_pos=[self.pos[i] for i in index]
 		y_pos=np.array(y_pos)
-		y_pos=keras.utils.to_categorical(y_pos, num_classes=10)
+		y_pos=to_categorical(y_pos, num_classes=10)
 		return x_tensor,{'output1': y_label, 'output2': y_pos}
 
 #data generator for generating batches of data from 50-mers for testing
-class DataGenerator_from_50mer_testing(keras.utils.Sequence):
+class DataGenerator_from_50mer_testing(Sequence):
 	def __init__(self, f_matrix, batch_size=1024,shuffle=False):
 		self.batch_size = batch_size
 		self.matrix = f_matrix
@@ -170,7 +171,7 @@ class DataGenerator_from_50mer_testing(keras.utils.Sequence):
 		return x_tensor
 
 #data generator for generating batches of data from 100-mers
-class DataGenerator_from_150mer(keras.utils.Sequence):
+class DataGenerator_from_150mer(Sequence):
 	def __init__(self, f_matrix, batch_size=101,n_classes=187, shuffle=False):
 		self.batch_size = batch_size
 		self.matrix = f_matrix
@@ -201,7 +202,7 @@ class DataGenerator_from_150mer(keras.utils.Sequence):
 		return x_tensor
 
 #data generator for generating batches of data from real-world data
-class DataGenerator_from_realdata(keras.utils.Sequence):
+class DataGenerator_from_realdata(Sequence):
 	def __init__(self, f_matrix,index_list,batch_size=51,n_classes=187, shuffle=False):
 		self.batch_size = batch_size
 		self.matrix = f_matrix
