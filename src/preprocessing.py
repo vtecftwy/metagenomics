@@ -30,16 +30,27 @@ def get_params_150mer():
 
 #get k-mers, labels and locations for 50-mer
 #default format for each line of training files: kmer+"\t"+label+"\t"+location
-def get_kmer_from_50mer(filepath):
-    f=open(filepath,"r").readlines()
+def get_kmer_from_50mer(filepath, max_seqs=None):
+    """Load data from sequence file and returns three tensors, with max nbr sequences"""
     f_matrix=[]
     f_labels=[]
     f_pos=[]
-    for i in f:
-        i=i.strip().split("\t")
-        f_matrix.append(i[0])
-        f_labels.append(i[1])
-        f_pos.append(i[2])
+    with open(filepath, 'r') as fp:
+        i = 0
+        while True:
+            line = fp.readline()
+            i += 1
+            # EOF
+            if line == '':
+                break
+            # Reached max number of k-mers to load from file
+            elif max_seqs is not None and i > max_seqs:
+                break
+            else:
+                seq, label, pos = line.strip().split('\t')
+                f_matrix.append(seq)
+                f_labels.append(label)
+                f_pos.append(pos)
     return f_matrix,f_labels,f_pos
 
 #get k-mers, labels and locations for 150-mer
