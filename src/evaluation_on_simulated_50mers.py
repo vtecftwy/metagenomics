@@ -19,8 +19,8 @@ testing_generator = DataGenerator_from_50mer_testing(f_matrix)
 
 model=load_model(filepath_model)
 hist = model.predict_generator(testing_generator,
-	verbose=1
-	)
+    verbose=1
+    )
 y_pred=[str(i.argmax(axis=-1)) for i in hist[0]]
 y_pred_loc=[str(i.argmax(axis=-1)) for i in hist[1]]
 

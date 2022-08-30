@@ -35,21 +35,21 @@ val_generator = DataGenerator_from_50mer(f_matrix_val, f_labels_val, f_pos_val, 
 model=build_model()
 print(model.summary())
 model.compile(optimizer='adam',
-	loss={'output1':'categorical_crossentropy','output2':'categorical_crossentropy'},
-	metrics=['accuracy'])
+    loss={'output1':'categorical_crossentropy','output2':'categorical_crossentropy'},
+    metrics=['accuracy'])
 
 CallBacks = [EarlyStopping(monitor='val_loss', patience=5),
                 ModelCheckpoint(filepath=filepath_model, monitor='val_loss', save_best_only=True)]
 
 result = model.fit_generator(training_generator,
-	epochs=100,
-	verbose=1,
-	#use_multiprocessing=True,
-	#workers=4,
-	class_weight=d_weights,
-	validation_data=val_generator,
-	callbacks=CallBacks
-	)
+    epochs=100,
+    verbose=1,
+    #use_multiprocessing=True,
+    #workers=4,
+    class_weight=d_weights,
+    validation_data=val_generator,
+    callbacks=CallBacks
+    )
 
 with open(filepath_loss,"wb") as f:
-	f.write(str(result.history).encode())
+    f.write(str(result.history).encode())

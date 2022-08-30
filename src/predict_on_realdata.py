@@ -31,11 +31,11 @@ final_label=[]
 final_loc=[]
 num_iters=len(f_index)
 for i in range(0,num_iters):
-	if i==0:
-		tmp_label,tmp_loc=get_final_result(predicted_labels_list[0:f_index[i]],predicted_prob_list[0:f_index[i]],predicted_loc_list[0:f_index[i]],predicted_loc_prob_list[0:f_index[i]])
-	else:
-		tmp_label,tmp_loc=get_final_result(predicted_labels_list[f_index[i-1]:f_index[i]],predicted_prob_list[f_index[i-1]:f_index[i]],predicted_loc_list[f_index[i-1]:f_index[i]],predicted_loc_prob_list[f_index[i-1]:f_index[i]])
-	final_label.append(tmp_label)
-	final_loc.append(tmp_loc)
+    if i==0:
+        tmp_label,tmp_loc=get_final_result(predicted_labels_list[0:f_index[i]],predicted_prob_list[0:f_index[i]],predicted_loc_list[0:f_index[i]],predicted_loc_prob_list[0:f_index[i]])
+    else:
+        tmp_label,tmp_loc=get_final_result(predicted_labels_list[f_index[i-1]:f_index[i]],predicted_prob_list[f_index[i-1]:f_index[i]],predicted_loc_list[f_index[i-1]:f_index[i]],predicted_loc_prob_list[f_index[i-1]:f_index[i]])
+    final_label.append(tmp_label)
+    final_loc.append(tmp_loc)
 
 save_report(filepath_report,final_label,final_loc)

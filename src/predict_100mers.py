@@ -24,8 +24,8 @@ testing_generator = DataGenerator_from_100mer(f_matrix, **params)
 
 model=load_model(filepath_model)
 hist = model.predict_generator(testing_generator,
-	verbose=1
-	)
+    verbose=1
+    )
 
 predicted_labels_list=[i.argmax(axis=-1) for i in hist[0]]
 predicted_prob_list=[max(i) for i in hist[0]]
@@ -36,8 +36,8 @@ final_label=[]
 final_loc=[]
 num_iters=int(len(predicted_labels_list)*1.0/51)
 for i in range(0,num_iters):
-	tmp_label,tmp_loc=get_final_result(predicted_labels_list[i*51:(i+1)*51],predicted_prob_list[i*51:(i+1)*51],predicted_loc_list[i*51:(i+1)*51],predicted_loc_prob_list[i*51:(i+1)*51])
-	final_label.append(str(tmp_label))
-	final_loc.append(str(tmp_loc))
+    tmp_label,tmp_loc=get_final_result(predicted_labels_list[i*51:(i+1)*51],predicted_prob_list[i*51:(i+1)*51],predicted_loc_list[i*51:(i+1)*51],predicted_loc_prob_list[i*51:(i+1)*51])
+    final_label.append(str(tmp_label))
+    final_loc.append(str(tmp_loc))
 
 save_report(filepath_report,final_label,final_loc)
