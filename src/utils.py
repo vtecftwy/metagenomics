@@ -20,7 +20,7 @@ class TrainingExperiment:
     Model will be saved after each run with a name based on the training experiment name
     """
     
-    def __init__(self, name, train_ds, val_ds, path2dir=None):
+    def __init__(self, name, train_ds, val_ds, p2drive, path2dir=None):
 
         if path2dir is None:
             self.p2saved = p2drive / 'saved/cnn_virus'
