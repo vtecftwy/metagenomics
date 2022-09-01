@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 import os
 
-from architecture import build_model
 from datetime import datetime
 from pathlib import Path
 from tensorflow.keras.callbacks import EarlyStopping
@@ -13,6 +12,9 @@ from tensorflow.keras.metrics import Accuracy
 from tensorflow.keras.models import load_model
 from tensorflow.keras.optimizers import Adam
 from tqdm.keras import TqdmCallback
+
+# Import custom code in development for this project
+from src.architecture import build_model
 
 class TrainingExperiment:
     """Represents one set of training runs from a new model to a trained moded
@@ -95,6 +97,7 @@ class TrainingExperiment:
         if descr_files:
             self.descr_path =descr_files[0]
             txts = f'Continue experiment with saved model ; loaded from {self.p2last_model}'.split(' ; ')
+            self._append_to_description_file([f"{'-'*80}"])
             self._append_to_description_file(txts)
         else:
             self.__create_new_description_file()
