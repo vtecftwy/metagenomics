@@ -128,8 +128,18 @@ class TrainingExperiment:
         lot.append('    '.join([f"{l:1.4e}" for l in losses.values[-1:, :].tolist()[0]]))
         self._append_to_description_file(lot)
 
-    def plot_losses(self):
-        pd.DataFrame(self.hist.history).plot()
+    def plot_losses(self, saved_losses=None):
+        if saved_losses is None:
+            losses = pd.DataFrame(self.hist.history)
+        else:
+            losses = pd.DataFrame(saved_losses)
+        fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(18, 6))
+        losses[[c for c in losses.columns if 'loss' in c]].plot(ax=ax1)
+        ax1.legend(loc='upper right')
+        ax1.set_title('Losses')
+        losses[[c for c in losses.columns if 'loss' not in c]].plot(ax=ax2)
+        ax2.legend(loc='upper right')
+        ax2.set_title('Accuracy')
         plt.show()
 
     def save_model(self):
