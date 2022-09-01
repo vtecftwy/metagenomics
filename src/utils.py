@@ -128,6 +128,9 @@ class TrainingExperiment:
         lot.append('    '.join([f"{l:1.4e}" for l in losses.values[-1:, :].tolist()[0]]))
         self._append_to_description_file(lot)
 
+    def add_comment_to_description_file(self, txt):
+        self._append_to_description_file([f"Added comment during run {self.run_count}", txt])
+
     def plot_losses(self, saved_losses=None):
         if saved_losses is None:
             losses = pd.DataFrame(self.result.history)
