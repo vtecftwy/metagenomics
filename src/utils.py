@@ -130,7 +130,7 @@ class TrainingExperiment:
 
     def plot_losses(self, saved_losses=None):
         if saved_losses is None:
-            losses = pd.DataFrame(self.hist.history)
+            losses = pd.DataFrame(self.result.history)
         else:
             losses = pd.DataFrame(saved_losses)
         fig, (ax1, ax2) = plt.subplots(nrows=1, ncols=2, figsize=(18, 6))
