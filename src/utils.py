@@ -1,4 +1,5 @@
 import json
+from tabnanny import verbose
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
@@ -63,12 +64,20 @@ class TrainingExperiment:
 
         es = EarlyStopping(monitor='val_loss', patience=patience, restore_best_weights=True)
         pb = TqdmCallback(verbose=1)
+
+        if epochs>10:
+            cbs = [es, pb]
+            verbose = 0
+        else:
+            cbs = [es]
+            verbose = 1
+            
         self.result = self.model.fit(
                 self.train_ds,
                 epochs=epochs,
                 validation_data = self.val_ds,
-                verbose=0,
-                callbacks=[es, pb],
+                verbose=verbose,
+                callbacks=cbs,
         )
 
         self._update_description_file()
