@@ -63,9 +63,9 @@ class TrainingExperiment:
         )
 
         es = EarlyStopping(monitor='val_loss', patience=patience, restore_best_weights=True)
-        pb = TqdmCallback(verbose=1)
 
         if epochs>10:
+            pb = TqdmCallback(verbose=1)
             cbs = [es, pb]
             verbose = 0
         else:
