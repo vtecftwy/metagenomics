@@ -33,7 +33,7 @@ def entity_projects(entity):
 
 def print_entity_project_list(entity):
     """Print the name and url of all projects in entity"""
-    projects = projects(entity)
+    projects = entity_projects(entity)
     print(f"List of projects under entity <{entity}>")
     for i, p in enumerate(projects):
         print(f" {i:2d}. {p.name:30s} (url: {p.url})")
