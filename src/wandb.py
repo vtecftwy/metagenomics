@@ -84,3 +84,9 @@ def project_artifacts(entity, project_name, by_alias='latest', by_type=None, by_
     return latest, [t.name for t in at_types]
 
 
+def run_exists(run_name, entity, project):
+    """Return True if there is already a run with the same name in the given entity and project"""
+    api = wandb.Api()
+    runs = api.runs(path=f"{entity}/{project}")
+    run_matches = [run_name == r.name for r in runs]
+    return any(run_matches)
