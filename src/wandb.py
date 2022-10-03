@@ -261,8 +261,4 @@ def train_with_wandb(entity, project_name, run_name_seed, train_ds_at_name, val_
     run.finish()    
 
 if __name__ == '__main__':
-    config = {
-        'architecture': 'cnn-virus-original',
-    }
-
-    print(validate_config(config))
+    pass

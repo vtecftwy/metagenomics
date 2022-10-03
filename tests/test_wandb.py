@@ -88,6 +88,33 @@ def test_validate_with_no_keys():
     assert result == true_config
 
 
+def test_validate_with_values_different_from_default():
+    # Setup
+    config = {
+        'architecture': 'cnn-virus-original',
+        'n_train_samples': 1000,
+        'n_val_samples': 2000,
+    }
+
+    true_config = {
+        'architecture': 'cnn-virus-original',
+        'dataset': 'Dataset.map(string_to_tensor) v2',
+        'n_train_samples': 1000,
+        'n_val_samples': 2000,
+        'batch_size': 1024,
+        'learning_rate': 1e-3,
+        'epochs': 5,
+        'ds_cache': False,
+        'ds_prefetch': True,
+    }
+
+    # Execute
+    result = validate_config(config)
+
+    # Verify
+    assert result == true_config
+
+
 if __name__ == '__main__':
 
     print('END')
