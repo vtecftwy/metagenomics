@@ -124,7 +124,7 @@ def validate_config(config):
     
     return config
 
-def train_with_wandb(entity, project_name, run_name_seed, train_ds_at_name, val_ds_at_name, model_at_name=None, config=None):
+def train_with_wandb(entity, project_name, run_name_seed, train_ds_at_name, val_ds_at_name, model_at_name=None, config=None, run_out=False):
     """Starts a new wandb run and performs a training sequence using datasets and (optional) saved model.
     
     The function perform each of these steps:
@@ -182,6 +182,9 @@ def train_with_wandb(entity, project_name, run_name_seed, train_ds_at_name, val_
         save_code=True
         )
     cfg = wandb.config
+
+    if run_out:
+        run_out = run
 
     # 3a. download train and val raw data files
     train_ds_at_path = f"{project_name}/{train_ds_at_name}:latest"
