@@ -16,6 +16,7 @@
 # [ ]   Function required in model testing -> dataset, code, trained model, preformance and reports
 
 import numpy as np
+import os
 import pandas as pd
 import tensorflow as tf
 import wandb
@@ -28,6 +29,18 @@ from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.optimizers import Adam
 from wandb.keras import WandbCallback
 
+
+def register_code_to_wandb(code_fname, p2drive):
+    """Register code file name to WandB to allow it to be logged in runs"""
+    p2nb = p2drive / 'nbs' / code_fname
+    if p2nb.is_file():
+        os.environ['WANDB_NOTEBOOK_NAME'] = str(p2nb.absolute())
+    else:
+        raise ValueError(f"code file {p2nb.name} does not exist")
+
+    print(f"{'>'*0} Verify that path and name to the code are correct: {'<'*25}")
+    print(f" - file name:     {code_fname}")
+    print(f" - file path:     {os.environ['WANDB_NOTEBOOK_NAME']}")
 
 def get_project(entity, project_name):
     """Returns WandB project object defined by entity and project name"""
