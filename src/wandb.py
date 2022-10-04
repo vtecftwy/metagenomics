@@ -67,18 +67,18 @@ def project_artifacts(entity, project_name, by_alias='latest', by_type=None, by_
         raise ValueError(f"{by_type} is not an artifact type in {entity}/{project_name}")
 
     # create a df where each row corresponds to one artifact logged during one run in this project
-    cols = 'run_name run_id at_name at_type at_id at_state at_version at_aliases file_count created_at updated_at'.split(' ')
+    # some artifact may be duplicated when linked to more than one run. Those duplicate need to be filtered out
+    cols = 'at_name at_type at_id at_state at_version at_aliases file_count created_at updated_at'.split(' ')
     artifacts_df = pd.DataFrame(columns=cols)
     
     for r in runs:
-        r_name, r_id = r.name, r.id
         for at in r.logged_artifacts():
-            metadata = [r_name, r_id, at.name, at.type, at.id, at.state, at.version, at.aliases, at.file_count, at.created_at, at.updated_at]
+            metadata = [at.name, at.type, at.id, at.state, at.version, at.aliases, at.file_count, at.created_at, at.updated_at]
             row = pd.DataFrame({k:v for k, v in zip(cols, metadata)})
             artifacts_df = artifacts_df.append(row)
+    artifacts_df = artifacts_df.loc[~artifacts_df.duplicated(subset=['at_id'], keep='first'), :]
 
-    cols2show = 'run_name run_id at_name at_version at_type at_aliases file_count created_at updated_at at_id'.split(' ')
-
+    cols2show = 'at_name at_version at_type at_aliases file_count created_at updated_at at_id'.split(' ')
     # filtering by passed alias and type:
     #   if by_xxx is not None:    filter is a boolean vector
     #   if by_xxx is None:        filter is an array of 'True'
