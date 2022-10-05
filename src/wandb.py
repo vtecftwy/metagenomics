@@ -27,6 +27,7 @@ from src.architecture import build_model
 from src.datasets import strings_to_tensors
 from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.optimizers import Adam
+from typing import Callable
 from wandb.keras import WandbCallback
 
 
@@ -137,7 +138,12 @@ def validate_config(config):
     
     return config
 
-def train_with_wandb(entity, project_name, run_name_seed, train_ds_at_name, val_ds_at_name, model_at_name=None, config=None, run_out=False):
+def train_with_wandb(
+    entity: str, project_name: str, run_name_seed: str, 
+    train_ds_at_name: str, val_ds_at_name: str, 
+    model_at_name: str = None, build_model: Callable = None,
+    config: dict = None, run_out: bool = False, 
+    ):
     """Starts a new wandb run and performs a training sequence using datasets and (optional) saved model.
     
     The function perform each of these steps:
@@ -240,17 +246,19 @@ def train_with_wandb(entity, project_name, run_name_seed, train_ds_at_name, val_
 
     print(f"dataset built with cache:{config['ds_cache']}, prefetch:{config['ds_prefetch']}.")
 
-    # create model and compile it
+    # create model using passed build function or loaded artifact, and compile it
     if model_at_name is None:
-        print('Creating a new model')
-        model = build_model()
+        if build_model is not None and callable(build_model):
+            print('Creating a new model')
+            model = build_model()
+        else:
+            raise ValueError(f"Require 'build_model' to be a callable to create a new model")
     else:
         print(f"Downloading and using latest version of model {model_at_name}")
         model_at_path = f"{project_name}/{model_at_name}:latest"
         model_at = run.use_artifact(model_at_path, type='model')
         model_at_dir = model_at.download()
         model = tf.keras.models.load_model(Path(model_at_dir).resolve())
-
 
     optim = Adam(learning_rate=wandb.config.learning_rate)
     model.compile(
