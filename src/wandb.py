@@ -122,8 +122,6 @@ def validate_config(config):
     default_config = {
         'architecture': 'cnn-virus-original',
         'dataset': 'Dataset.map(string_to_tensor) v2',
-        'n_train_samples': 0,
-        'n_val_samples': 0,
         'batch_size': 1024,
         'learning_rate': 1e-3,
         'epochs': 5,
@@ -142,7 +140,7 @@ def train_with_wandb(
     entity: str, project_name: str, run_name_seed: str, 
     train_ds_at_name: str, val_ds_at_name: str, 
     model_at_name: str = None, build_model: Callable = None,
-    config: dict = None, run_out: bool = False, 
+    config: dict = None 
     ):
     """Starts a new wandb run and performs a training sequence using datasets and (optional) saved model.
     
@@ -174,8 +172,8 @@ def train_with_wandb(
         the key-value pairs below are required and will be set as the default values if not present:
             'architecture' (default: 'cnn-virus-original')
             'dataset': (default: 'Dataset.map(string_to_tensor) v2')
-            'n_train_samples': (default: 0)
-            'n_val_samples': (default: 0)
+            'n_train_samples': (default: 0) (retrieved from artifact metadata if available)
+            'n_val_samples': (default: 0)   (retrieved from artifact metadata if available)
             'batch_size': (default: 1024)
             'learning_rate': (default: 1e-3)
             'epochs': (default: 5)
@@ -194,6 +192,15 @@ def train_with_wandb(
     # 1. validate configuration
     config = validate_config(config)
 
+    # Retrieve n_samples from dataset artifacts metadata and save in config
+    train_ds_at_path = f"{entity}{project_name}/{train_ds_at_name}:latest"
+    val_ds_at_path =   f"{entity}{project_name}/{val_ds_at_name}:latest"
+    api = wandb.Api()
+    train_at = api.artifact(train_ds_at_path)
+    val_at = api.artifact(val_ds_at_path)
+    config['n_train_samples'] = train_at.metadata.get('n_samples', 0)
+    config['n_val_samples'] = val_at.metadata.get('n_samples', 0)
+
     # 2. start a new run
     run = wandb.init(
         entity=entity, 
@@ -204,12 +211,7 @@ def train_with_wandb(
         )
     cfg = wandb.config
 
-    if run_out:
-        run_out = run
-
     # 3a. download train and val raw data files
-    train_ds_at_path = f"{project_name}/{train_ds_at_name}:latest"
-    val_ds_at_path =   f"{project_name}/{val_ds_at_name}:latest"
 
     train_ds_at = run.use_artifact(train_ds_at_path, type='raw_data')
     train_ds_dir = train_ds_at.download()
