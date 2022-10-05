@@ -193,8 +193,8 @@ def train_with_wandb(
     config = validate_config(config)
 
     # Retrieve n_samples from dataset artifacts metadata and save in config
-    train_ds_at_path = f"{entity}{project_name}/{train_ds_at_name}:latest"
-    val_ds_at_path =   f"{entity}{project_name}/{val_ds_at_name}:latest"
+    train_ds_at_path = f"{entity}/{project_name}/{train_ds_at_name}:latest"
+    val_ds_at_path =   f"{entity}/{project_name}/{val_ds_at_name}:latest"
     api = wandb.Api()
     train_at = api.artifact(train_ds_at_path)
     val_at = api.artifact(val_ds_at_path)
