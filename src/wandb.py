@@ -185,6 +185,8 @@ def train_with_wandb(
         name of the WandB Artifact with the saved moded to use.
         the name should not include any `:vn` version number
         when `None`, a new model is created
+    build_model : Callable,
+        function to build an empty architecture
 
     """
     run_name = unique_run_name(run_name_seed)
