@@ -7,7 +7,7 @@ import random
 
 def build_model():
     """Deprecated function"""
-    print("This function is deprecated. Une `build_cnn_virus_original()` instead")
+    raise RuntimeError("`build_model` function is deprecated. Use `build_cnn_virus_original()` instead")
 
 def build_cnn_virus_original():
     print("Creating Model")

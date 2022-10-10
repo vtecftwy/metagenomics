@@ -1,6 +1,6 @@
 # Classes and functions to support WandB process
 # COMMENT: What to do in this module?
-# [ ]   Define main operations involving WandB
+# []   Define main operations involving WandB
 #       - preparing dataset and loading datasets as artifact
 #       - training a model with a dataset and hyperparameters
 #       - testing / validating model with test dataset
@@ -23,7 +23,7 @@ import wandb
 
 from datetime import datetime
 from pathlib import Path
-from src.architecture import build_model
+from src.architecture import build_model, build_cnn_virus_original
 from src.datasets import strings_to_tensors
 from tensorflow.keras.losses import CategoricalCrossentropy
 from tensorflow.keras.optimizers import Adam
@@ -254,7 +254,7 @@ def train_with_wandb(
     if model_at_name is None:
         if build_model is not None and callable(build_model):
             print('Creating a new model')
-            model = build_model()
+            model = build_cnn_virus_original()
         else:
             raise ValueError(f"Require 'build_model' to be a callable to create a new model")
     else:
