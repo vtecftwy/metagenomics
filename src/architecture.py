@@ -6,6 +6,10 @@ import numpy as np
 import random
 
 def build_model():
+    """Deprecated function"""
+    print("This function is deprecated. Une `build_cnn_virus_original()` instead")
+
+def build_cnn_virus_original():
     print("Creating Model")
     #build cnn model
     input_seq=Input(shape=(50,5))
@@ -30,3 +34,4 @@ def build_model():
     output2=Dense(10, activation='softmax',kernel_initializer="he_uniform",name="output2")(layer16)
     model = Model(inputs=input_seq, outputs=[output1,output2])
     return model
+    
